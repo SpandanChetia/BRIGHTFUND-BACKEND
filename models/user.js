@@ -1,27 +1,12 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
-
-const fundraiserSchema = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Date,
-        required: true
-    },
-    donationMinLimit: {
-        type: Number,
-        required: true
-    }
-});
+const fundraiserSchema = require('./fundraiser');
 
 const userSchema = new Schema({
+    fullName: {
+        type: String,
+        required: true 
+    },
     email: {
         type: String,
         required: true
