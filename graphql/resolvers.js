@@ -2,6 +2,7 @@ import User from '../models/user.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import validator from 'validator';
+import { sendEmail } from '../util/mailer.js';
 
 const resolvers = {
   createUser: async function ({ userInput }, req) {
@@ -33,6 +34,16 @@ const resolvers = {
       password: hashedPW,
     });
     const createdUser = await user.save();
+    
+    try{
+      await sendEmail(
+        userInput.email,
+        'Welcome to Our Platform',
+        `Hello ${userInput.fullName}, \n\nThank you for signing up. We are excited to have you on board!`
+      );
+    }catch(error){
+      console.error('Error sending email: ', error);
+    }
     return { ...createdUser._doc, _id: createdUser._id.toString() };
   },
 

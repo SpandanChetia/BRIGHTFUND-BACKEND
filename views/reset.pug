@@ -1,0 +1,15 @@
+link(rel="stylesheet", href="/css/forms.css")
+link(rel="stylesheet", href="/css/signup.module.css")
+body
+
+    main
+        if errorMessage
+            .user-message.user-message--error= errorMessage
+        .hero
+            .signupContainer
+                h2 #{pageTitle}
+                form.signupForm(action="/reset", method="POST")
+                    .formGroup
+                        label(for="email") E-Mail
+                        input(type="email", name="email", id="email", required)
+                    button.btn(type="submit") Reset
