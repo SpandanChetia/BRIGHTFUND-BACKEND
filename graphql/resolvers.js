@@ -1,7 +1,9 @@
-const User = require("../models/user");
-const validator = require("validator");
+import User from '../models/user.js'; 
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import validator from 'validator';
 
-module.exports = {
+const resolvers = {
   createUser: async function ({ userInput }, req) {
     let errors = [];
     if (!validator.isEmail(userInput.email)) {
@@ -31,7 +33,7 @@ module.exports = {
       password: hashedPW,
     });
     const createdUser = await user.save();
-    return { ...createdUser.doc, _id: createdUser._id.toString() };
+    return { ...createdUser._doc, _id: createdUser._id.toString() };
   },
 
   login: async function ({ email, password }) {
@@ -58,3 +60,5 @@ module.exports = {
     return { token: token, userId: user._id.toString() };
   },
 };
+
+export default resolvers;

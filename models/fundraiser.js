@@ -1,28 +1,28 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const fundraiserSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
     type: {
         type: String,
-        required: true
+        required: true,
     },
     date: {
         type: Date,
-        required: true
+        required: true,
     },
     donationMinLimit: {
         type: Number,
-        required: true
-    }
-}, { timestamps: true});
+        required: true,
+    },
+}, { timestamps: true });
 
-module.exports = fundraiserSchema;
+export default fundraiserSchema;

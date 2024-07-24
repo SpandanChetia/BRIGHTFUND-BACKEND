@@ -1,11 +1,12 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import fundraiserSchema from './fundraiser.js'; 
+
 const Schema = mongoose.Schema;
-const fundraiserSchema = require('./fundraiser');
 
 const userSchema = new Schema({
     fullName: {
         type: String,
-        required: true 
+        required: true
     },
     email: {
         type: String,
@@ -18,4 +19,4 @@ const userSchema = new Schema({
     fundraisers: [fundraiserSchema] 
 });
 
-module.exports = mongoose.model('User', userSchema);
+export default mongoose.model('User', userSchema);

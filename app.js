@@ -1,36 +1,35 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import { application } from "express";
+import { fileURLToPath } from "url";
+import { dirname } from "path"; 
 import { graphqlHTTP } from "express-graphql";
-import graphqlSchema from "./graphql/schema";
-import graphqlResolver from "./graphql/resolvers";
-import path from "path";
-
-const authRoutes = require("./routes/auth");
+import Userschema from "./graphql/schema.js";
+import resolvers from "./graphql/resolvers.js";
+import authRoutes from "./routes/auth.js"; 
 
 const app = express();
 
 app.set("view engine", "pug");
-app.set("views", "views");
+app.set("views", "./views");
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("./public")); 
 
 app.use(authRoutes);
 
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema: graphqlSchema,
-    rootValue: graphqlResolver,
+    schema: Userschema,
+    rootValue: resolvers,
     graphiql: true,
     formatError(err) {
       if (!err.originalError) {
         return err;
       }
       const data = err.originalError.data;
-      const message = err.message || "An error occured.";
+      const message = err.message || "An error occurred.";
       const code = err.originalError.code || 500;
       return { message: message, status: code, data: data };
     },
