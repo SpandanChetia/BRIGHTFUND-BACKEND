@@ -9,6 +9,7 @@
 	<img width="50" src="https://github.com/SpandanChetia/SpandanChetia/blob/main/img/graphQL.png" alt="GraphQL" title="GraphQL"/>
 	<img width="50" src="https://github.com/SpandanChetia/SpandanChetia/blob/main/img/pug.png" alt="Pug" title="Pug"/>
 	<img width="50" src="https://github.com/colinhacks/zod/blob/main/logo.svg" alt="Zod" title="Zod"/>
+	<img width="50" src="https://raw.githubusercontent.com/nodemailer/nodemailer/master/assets/nm_logo_200x136.png" alt="NodeMailer" title="NodeMailer"/>
 	<img width="50" src="https://github.com/SpandanChetia/SpandanChetia/blob/main/img/html.png" alt="HTML" title="HTML"/>
 	<img width="50" src="https://github.com/css-modules/css-modules/assets/9113740/f0de16c6-aee2-4fb7-8752-bf400cc5145e" alt="CSS" title="CSS"/>
 </div>
