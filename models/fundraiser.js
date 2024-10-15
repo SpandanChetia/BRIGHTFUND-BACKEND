@@ -45,4 +45,5 @@ const fundraiserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-mongoose.model("Fundraiser", fundraiserSchema);
+const Fundraiser = mongoose.model("Fundraiser", fundraiserSchema);
+module.exports = Fundraiser;
