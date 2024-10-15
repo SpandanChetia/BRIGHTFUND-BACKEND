@@ -1,28 +1,48 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
-const { Schema } = mongoose;
+const { ObjectId } = mongoose.Schema.Types;
 
-const fundraiserSchema = new Schema({
+const fundraiserSchema = new mongoose.Schema(
+  {
     title: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     description: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
-    type: {
-        type: String,
-        required: true,
+    category: {
+      type: String,
+      default: "No category",
     },
-    date: {
-        type: Date,
-        required: true,
+    goal: {
+      type: Number,
+      min: [0, "Goal amount cannot be less than 0"],
+      default: 0,
+      required: true,
     },
-    donationMinLimit: {
-        type: Number,
-        required: true,
+    QRCode: {
+      type: String,
+      required: true,
     },
-}, { timestamps: true });
+    likes: [{ type: ObjectId, ref: "User" }],
+    comments: [
+      {
+        text: String,
+        postedBy: { type: ObjectId, ref: "User" },
+      },
+    ],
+    postedBy: {
+      type: ObjectId,
+      ref: "User",
+    },
+    status: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  { timestamps: true }
+);
 
-export default fundraiserSchema;
+mongoose.model("Fundraiser", fundraiserSchema);

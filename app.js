@@ -1,48 +1,33 @@
-import express from "express";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import { fileURLToPath } from "url";
-import { dirname } from "path"; 
-import { graphqlHTTP } from "express-graphql";
-import Userschema from "./graphql/schema.js";
-import resolvers from "./graphql/resolvers.js";
-import authRoutes from "./routes/auth.js"; 
+require("dotenv").config();
+const express = require("express");
 
+const cors = require("cors");
 const app = express();
 
-app.set("view engine", "pug");
-app.set("views", "./views");
+const authRouter = require("./routes/auth");
+const fundraiserRouter = require("./routes/fundraiser");
+const userRouter = require("./routes/user");
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static("./public")); 
+const connectToDb = require("./util/db");
 
-app.use(authRoutes);
+const PORT = process.env.PORT || 5000;
 
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema: Userschema,
-    rootValue: resolvers,
-    graphiql: true,
-    formatError(err) {
-      if (!err.originalError) {
-        return err;
-      }
-      const data = err.originalError.data;
-      const message = err.message || "An error occurred.";
-      const code = err.originalError.code || 500;
-      return { message: message, status: code, data: data };
-    },
-  })
-);
+app.use(express.json());
+app.use(cors());
 
-mongoose
-  .connect("DATABASE_URL", { useNewUrlParser: true, useUnifiedTopology: true })
+app.use("/", authRouter);
+app.use("/", fundraiserRouter);
+app.use("/", userRouter);
+
+app.use(express.urlencoded({ extended: true }));
+
+connectToDb()
   .then(() => {
-    app.listen(3000, () => {
-      console.log("Server is running on port 3000");
+    app.listen(PORT, () => {
+      console.log(`Server Running on ${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("Database connection error:", err);
+    console.dir(err);
+    process.exit(1);
   });

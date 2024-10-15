@@ -1,24 +1,27 @@
-import mongoose from 'mongoose';
-import fundraiserSchema from './fundraiser.js'; 
+const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
+const { ObjectId } = mongoose.Schema.Types;
 
-const userSchema = new Schema({
-    fullName: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    resetToken: String,
-    resetTokenExpiration: Date,
-    fundraisers: [fundraiserSchema] 
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  pic: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/dpoeooxra/image/upload/v1683117175/profile%20pic/default_ljqs1s.png",
+  },
+  followers: [{ type: ObjectId, ref: "User" }],
+  following: [{ type: ObjectId, ref: "User" }],
 });
 
-export default mongoose.model('User', userSchema);
+mongoose.model("User", userSchema);
