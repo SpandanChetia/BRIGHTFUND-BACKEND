@@ -13,22 +13,26 @@ router.post("/signup", async (req, res) => {
     return res.status(422).json({ error: "Please Add all the fields !!" });
   }
 
-  const savedUser = await User.findOne({ email: email });
-  if (savedUser) {
-    return res.status(422).json({ error: "User already Exists" });
+  try {
+    const savedUser = await User.findOne({ email: email });
+    if (savedUser) {
+      return res.status(422).json({ error: "User already Exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      pic,
+    });
+
+    await user.save();
+    res.json({ message: "User Saved Successfully" });
+  } catch (error) {
+    res.json({ message: error.message });
   }
-
-  const hashedPassword = await bcrypt.hash(password, 12);
-
-  const user = new User({
-    name,
-    email,
-    password: hashedPassword,
-    pic,
-  });
-
-  await user.save();
-  res.json({ message: "User Saved Successfully" });
 });
 
 router.post("/signin", async (req, res) => {

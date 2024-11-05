@@ -20,9 +20,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", authRouter);
-app.use("/", fundraiserRouter);
-app.use("/", userRouter);
+app.use("/auth", authRouter);
+app.use("/user", userRouter);
+app.use("/fundraiser", fundraiserRouter);
 
 app.use(express.urlencoded({ extended: true }));
 

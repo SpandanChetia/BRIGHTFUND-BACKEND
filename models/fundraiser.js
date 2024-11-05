@@ -22,7 +22,7 @@ const fundraiserSchema = new mongoose.Schema(
       default: 0,
       required: true,
     },
-    QRCode: {
+    upiId: {
       type: String,
       required: true,
     },
