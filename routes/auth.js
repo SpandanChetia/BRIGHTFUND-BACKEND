@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const requireLogin = require("../middlewares/requireLogin");
 
 const JWT_SECRET = "spandan";
 const router = express.Router();
@@ -69,6 +70,10 @@ router.post("/signin", async (req, res) => {
       pic: savedUser.pic,
     },
   });
+});
+
+router.get("/", requireLogin, async (req, res) => {
+  return res.json({ user: req.user });
 });
 
 module.exports = router;

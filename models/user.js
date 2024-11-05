@@ -22,6 +22,17 @@ const userSchema = new mongoose.Schema({
   },
   followers: [{ type: ObjectId, ref: "User" }],
   following: [{ type: ObjectId, ref: "User" }],
+  fundraisers: [{ type: ObjectId, ref: "Fundraiser" }],
+});
+
+userSchema.pre("findOne", function (next) {
+  this.populate("fundraisers");
+  next();
+});
+
+userSchema.pre("find", function (next) {
+  this.populate("fundraisers");
+  next();
 });
 
 const User = mongoose.model("User", userSchema);

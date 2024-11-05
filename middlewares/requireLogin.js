@@ -11,7 +11,11 @@ const requireLogin = async (req, res, next) => {
   const token = authorization.replace("Bearer ", "");
   try {
     const payload = await jwt.verify(token, JWT_SECRET);
-    req.user = await User.findById(payload._id);
+    const user = await User.findById(payload._id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    req.user = user;
     next();
   } catch (err) {
     return res.status(401).json({ error: "jwt invalid" });

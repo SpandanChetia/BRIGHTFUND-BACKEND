@@ -1,4 +1,5 @@
 const Fundraiser = require("../models/fundraiser");
+const User = require("../models/user");
 const requireLogin = require("../middlewares/requireLogin");
 const router = require("express").Router();
 
@@ -13,6 +14,12 @@ router.post("/", requireLogin, async (req, res) => {
       upiId: req.body.upiId,
       postedBy: req.user._id,
     }).save();
+
+    await User.findByIdAndUpdate(
+      req.user._id,
+      { $push: { fundraisers: fundraiser._id } },
+      { new: true }
+    );
 
     return res.status(201).json(fundraiser);
   } catch (error) {
